@@ -32,4 +32,20 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
+    public User updateUser(Long id, User user) {
+        User retrievedUser = this.userRepository.findById(id).get();
+        retrievedUser.setUsername(user.getUsername());
+        retrievedUser.setSlug(slugify.slugify(user.getUsername()));
+        retrievedUser.setEmail(user.getEmail());
+        retrievedUser.setPassword(user.getPassword());
+        retrievedUser.setBannerPicture(user.getBannerPicture());
+        retrievedUser.setProfilePicture(user.getProfilePicture());
+        retrievedUser.setBiography(user.getBiography());
+
+        return this.userRepository.save(retrievedUser);
+    }
+
+    public void deleteUser(Long id) {
+        this.userRepository.deleteById(id);
+    }
 }
