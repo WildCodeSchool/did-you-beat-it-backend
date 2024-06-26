@@ -25,9 +25,11 @@ public class User {
 
     private String slug;
 
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$", message = "Veuillez renseigner un email valide")
+    @NotBlank(message = "Veuillez renseigner une adresse email")
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$", message = "Veuillez renseigner une adresse email valide")
     private String email;
 
+    @NotBlank(message = "Veuuillez renseigner un mot de passe")
     @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$")
     private String password;
