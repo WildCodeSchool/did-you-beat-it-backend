@@ -27,6 +27,11 @@ public class UserService {
         return user;
     }
 
+    public User getOneBySlug(String slug) {
+        User user = this.userRepository.findBySlug(slug);
+        return user;
+    }
+
     public User createUser(User user) {
         user.setSlug(slugify.slugify(user.getUsername()));
         return this.userRepository.save(user);
@@ -38,10 +43,20 @@ public class UserService {
         retrievedUser.setSlug(slugify.slugify(user.getUsername()));
         retrievedUser.setEmail(user.getEmail());
         retrievedUser.setPassword(user.getPassword());
-        retrievedUser.setBannerPicture(user.getBannerPicture());
-        retrievedUser.setProfilePicture(user.getProfilePicture());
         retrievedUser.setBiography(user.getBiography());
 
+        return this.userRepository.save(retrievedUser);
+    }
+
+    public User updateBanner(Long id, User user) {
+        User retrievedUser = this.userRepository.findById(id).get();
+        retrievedUser.setBannerPicture(user.getBannerPicture());
+        return this.userRepository.save(retrievedUser);
+    }
+
+    public User updateProfilePicture(Long id, User user) {
+        User retrievedUser = this.userRepository.findById(id).get();
+        retrievedUser.setProfilePicture(user.getProfilePicture());
         return this.userRepository.save(retrievedUser);
     }
 

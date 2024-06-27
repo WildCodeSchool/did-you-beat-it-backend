@@ -30,17 +30,15 @@ public class UserController {
         return this.userService.getAll();
     }
 
-    @Operation(summary = "Get one user by id", description = "Get one user by id")
-    @GetMapping("/{id}")
-    public User getOneById(@PathVariable Long id) {
-        return this.userService.getOneById(id);
+    @Operation(summary = "Get one user by slug", description = "Get one user by slug")
+    @GetMapping("/{slug}")
+    public User getOneBySlug(@PathVariable String slug) {
+        return this.userService.getOneBySlug(slug);
     }
-
 
     @Operation(summary = "Create user", description = "Create user")
     @PostMapping("")
     public User createUser(@RequestBody User user) {
-        System.out.println(user);
         return this.userService.createUser(user);
     }
 
@@ -48,6 +46,18 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return this.userService.updateUser(id, user);
+    }
+
+    @Operation(summary = "Update user's banner", description = "Update user's banner")
+    @PutMapping("/{id}/banner-picture/{bannerPicture}")
+    public User updateBanner(@PathVariable Long id, @RequestBody User user) {
+        return this.userService.updateBanner(id, user);
+    }
+
+    @Operation(summary = "Update user's profile picture", description = "Update user's profile picture")
+    @PutMapping("/{id}/profile-picture/{profilePicture}")
+    public User updateProfilePicture(@PathVariable Long id, @RequestBody User user) {
+        return this.userService.updateProfilePicture(id, user);
     }
 
     @Operation(summary = "Delete user", description = "Delete user")

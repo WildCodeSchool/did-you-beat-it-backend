@@ -19,12 +19,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     @NotBlank(message = "Veuillez renseigner un nom d'utilisateur")
     @Size(min = 3, max = 15, message = "Le nom d'utilisateur doit faire entre 3 et 15 caractères de long")
     private String username;
 
     private String slug;
 
+    @Column(unique = true)
     @NotBlank(message = "Veuillez renseigner une adresse email")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$", message = "Veuillez renseigner une adresse email valide")
     private String email;
@@ -50,15 +52,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String email, String password, String bannerPicture, String profilePicture, String biography) {
+    public User(String username, String email, String password, String biography) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.bannerPicture = bannerPicture;
-        this.profilePicture = profilePicture;
         this.biography = biography;
     }
-
 
     public Long getId() {
         return this.id;
