@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
@@ -44,20 +45,17 @@ public class UserController {
 
     @Operation(summary = "Update user", description = "Update user")
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return this.userService.updateUser(id, user);
-    }
+    public User updateUser(@PathVariable Long id, @RequestBody User user, @RequestParam(required = false) String picture) {
+        switch(picture) {
+            case "banner":
+                return this.userService.updateBanner(id, user);
+            
+            case "profile": 
+                return this.userService.updateProfilePicture(id, user);
 
-    @Operation(summary = "Update user's banner", description = "Update user's banner")
-    @PutMapping("/{id}/banner-picture/{bannerPicture}")
-    public User updateBanner(@PathVariable Long id, @RequestBody User user) {
-        return this.userService.updateBanner(id, user);
-    }
-
-    @Operation(summary = "Update user's profile picture", description = "Update user's profile picture")
-    @PutMapping("/{id}/profile-picture/{profilePicture}")
-    public User updateProfilePicture(@PathVariable Long id, @RequestBody User user) {
-        return this.userService.updateProfilePicture(id, user);
+            default:
+                return this.userService.updateUser(id, user);
+        }
     }
 
     @Operation(summary = "Delete user", description = "Delete user")
