@@ -45,13 +45,16 @@ public class UserController {
 
     @Operation(summary = "Update user", description = "Update user")
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user, @RequestParam(required = false) String picture) {
+    public User updateUser(@PathVariable Long id, @RequestBody User user, @RequestParam(defaultValue = "none") String picture) {
         switch(picture) {
             case "banner":
                 return this.userService.updateBanner(id, user);
             
             case "profile": 
                 return this.userService.updateProfilePicture(id, user);
+
+            case "none":
+                return this.userService.updateUser(id, user);
 
             default:
                 return this.userService.updateUser(id, user);
