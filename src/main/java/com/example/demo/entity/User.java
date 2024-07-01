@@ -50,6 +50,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = false;
     }
 
     public User(String username, String email, String password, String biography) {
@@ -57,6 +58,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.biography = biography;
+    }
+
+    public User(String username, String email, String password, String biography, String slug, boolean role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.biography = biography;
+        this.slug = slug;
+        this.role = role;
     }
 
     public Long getId() {
