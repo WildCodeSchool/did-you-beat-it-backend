@@ -13,7 +13,6 @@ public class Commentary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String slug;
     private String content;
     private String author;
     private Long UserId;
@@ -22,8 +21,7 @@ public class Commentary {
     public Commentary() {
     }
 
-    public Commentary(String slug, String content, String author, Long UserId, Long GameId) {
-        this.slug = slug;
+    public Commentary(String content, String author, Long UserId, Long GameId) {
         this.content = content;
         this.author = author;
         this.UserId = UserId;
@@ -32,14 +30,6 @@ public class Commentary {
 
     public Long getId() {
         return this.id;
-    }
-
-    public String getSlug() {
-        return this.slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public String getContent() {
