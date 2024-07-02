@@ -28,10 +28,10 @@ public class CommentaryController {
         return this.commentaryService.getAll();
     }
 
-    @Operation(summary = "Get one commentary by slug", description = "Get one commentary by slug")
-    @GetMapping("/{slug}")
-    public Commentary getOneBySlug(@PathVariable String slug) {
-        return this.commentaryService.getOneBySlug(slug);
+    @Operation(summary = "Get commentary by id", description = "Get commentary by id")
+    @GetMapping("/{id}")
+    public Commentary getOneById(@PathVariable Long id) {
+        return this.commentaryService.getOneById(id);
     }
 
     @Operation(summary = "Create commentary", description = "Create commentary")

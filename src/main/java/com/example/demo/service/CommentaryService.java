@@ -6,14 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Commentary;
 import com.example.demo.repository.CommentaryRepository;
-import com.github.slugify.Slugify;
+
 
 
 @Service
 public class CommentaryService {
-
-    private Slugify slugify = Slugify.builder().build();
-    
 
     @Autowired
     private CommentaryRepository commentaryRepository;
@@ -28,14 +25,9 @@ public class CommentaryService {
         return commentary;
     }
 
-    public Commentary getOneBySlug(String slug) {
-        Commentary commentary = this.commentaryRepository.findBySlug(slug);
-        return commentary;
-    }
-
     public Commentary createCommentary(Commentary commentary) {
-        commentary.setSlug(slugify.slugify(commentary.getContent()));
-        return this.commentaryRepository.save(commentary);
+        Commentary createdCommentary = this.commentaryRepository.save(commentary);
+        return createdCommentary;
     }
 
     public void deleteCommentary(Long id) {
