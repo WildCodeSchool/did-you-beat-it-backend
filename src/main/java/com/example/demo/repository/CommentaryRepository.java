@@ -9,5 +9,5 @@ import com.example.demo.entity.Commentary;
 @Repository
 public interface CommentaryRepository extends JpaRepository<Commentary, Long>{
     
-    public Commentary findBySlug(String slug);
+    
 }
