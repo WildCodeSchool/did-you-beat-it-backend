@@ -13,7 +13,7 @@ import com.github.slugify.Slugify;
 public class UserService {
 
     private Slugify slugify = Slugify.builder().build();
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -35,6 +35,10 @@ public class UserService {
     public User createUser(User user) {
         user.setSlug(slugify.slugify(user.getUsername()));
         return this.userRepository.save(user);
+    }
+
+    public User findByemail(String email) {
+        return this.userRepository.findByEmail(email);
     }
 
     public User updateUser(Long id, User user) {
