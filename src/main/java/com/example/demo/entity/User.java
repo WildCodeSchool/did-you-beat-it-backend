@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -36,6 +37,9 @@ public class User {
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$")
     private String password;
 
+    @Transient
+    private String newPassword;
+
     private boolean role;
     private String bannerPicture;
     private String profilePicture;
@@ -53,10 +57,10 @@ public class User {
         this.role = false;
     }
 
-    public User(String username, String email, String password, String biography) {
+    public User(String username, String email, String newPassword, String biography) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        this.newPassword = newPassword;
         this.biography = biography;
     }
 
