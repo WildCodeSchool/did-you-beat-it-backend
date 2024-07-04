@@ -1,13 +1,18 @@
 package com.example.demo.service;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Game;
 import com.example.demo.entity.User;
+import com.example.demo.entity.dto.GameDTO;
+import com.example.demo.repository.GameRepository;
 import com.example.demo.repository.UserRepository;
 import com.github.slugify.Slugify;
+
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -16,6 +21,11 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
+
+    private Game game = new Game();
 
     public List<User> getAll() {
         List<User> users = this.userRepository.findAll();
@@ -66,5 +76,56 @@ public class UserService {
 
     public void deleteUser(Long id) {
         this.userRepository.deleteById(id);
+    }
+
+    public Long findUserIdByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user.getId();
+        } else {
+            throw new IllegalArgumentException("User not found");
+        }
+    }
+
+    public void addGame(Long userId, Long gameId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+
+            Optional<Game> retrievedGame = gameRepository.findById(gameId);
+
+            if (retrievedGame.isPresent()) {
+                this.game = retrievedGame.get();
+
+            } else {
+                game.setId(gameId);
+                gameRepository.save(game);
+            }
+            List<Game> games = user.get().getGames();
+
+            if (!games.contains(game)) {
+                games.add(game);
+                user.get().setGames(games);
+                userRepository.save(user.get());
+            } else {
+                throw new IllegalArgumentException("Game is already registered in the user list");
+            }
+        } else {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+    }
+
+    private GameDTO convertToDTO(Game game) {
+        GameDTO gameDTO = new GameDTO();
+        gameDTO.setId(game.getId());
+        return gameDTO;
+    }
+
+    public List<GameDTO> getList(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found User with id = " + userId));
+
+        return user.getGames().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 }
