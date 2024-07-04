@@ -11,8 +11,6 @@ public class Game {
     @Id
     private Long id;
 
-    private Long gameId;
-
     @ManyToMany(mappedBy = "games")
     List<User> users = new ArrayList<>();
 
@@ -25,14 +23,6 @@ public class Game {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(Long gameId) {
-        this.gameId = gameId;
     }
 
     public List<User> getUsers() {
