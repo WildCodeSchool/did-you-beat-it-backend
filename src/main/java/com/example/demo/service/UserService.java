@@ -46,9 +46,11 @@ public class UserService {
         retrievedUser.setUsername(user.getUsername());
         retrievedUser.setSlug(slugify.slugify(user.getUsername()));
         retrievedUser.setEmail(user.getEmail());
-        retrievedUser.setPassword(user.getPassword());
         retrievedUser.setBiography(user.getBiography());
-
+        if (user.getPassword() != null) {
+            retrievedUser.setPassword(user.getPassword());
+        }
+        
         return this.userRepository.save(retrievedUser);
     }
 
