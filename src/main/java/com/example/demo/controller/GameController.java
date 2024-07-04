@@ -34,7 +34,7 @@ public class GameController {
         Long userId = userService.findUserIdByUsername(username);
 
         userService.addGame(userId, gameId);
-        return ResponseEntity.status(HttpStatus.OK).body("Success");
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @GetMapping("/{user_id}")
