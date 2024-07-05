@@ -140,7 +140,7 @@ public class UserService {
     }
 
     public Long getUsernameInToken(String token) {
-        String username = jwtService.extractUsername(token.substring(7));
+        String username = jwtService.extractUsername(token);
         Long userId = this.findUserIdByUsername(username);
         return userId;
     }
