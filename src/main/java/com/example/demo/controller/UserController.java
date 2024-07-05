@@ -72,7 +72,6 @@ public class UserController {
             String token = jwtService.generateToken(user.getId(), user.getUsername());
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
-            response.put("type", "Bearer");
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
