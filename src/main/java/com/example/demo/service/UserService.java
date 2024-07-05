@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.JwtService;
 import com.example.demo.entity.Game;
 import com.example.demo.entity.User;
 import com.example.demo.entity.dto.GameDTO;
@@ -24,6 +25,9 @@ public class UserService {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private JwtService jwtService;
 
     private Game game = new Game();
 
@@ -121,11 +125,23 @@ public class UserService {
     }
 
     public List<GameDTO> getList(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Not found User with id = " + userId));
 
-        return user.getGames().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user.getGames().stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+
+        }
+
+    }
+
+    public Long getUsernameInToken(String token) {
+        String username = jwtService.extractUsername(token.substring(7));
+        Long userId = this.findUserIdByUsername(username);
+        return userId;
     }
 }
