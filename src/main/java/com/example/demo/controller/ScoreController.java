@@ -33,18 +33,8 @@ public class ScoreController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Score> updateScore(@PathVariable Long id, @RequestBody Score scoreDetails) {
-        Optional<Score> scoreOptional = scoreService.findById(id);
-        if (!scoreOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Score score = scoreOptional.get();
-        score.setScore(scoreDetails.getScore());
-        score.setUserId(scoreDetails.getUserId());
-        score.setGameId(scoreDetails.getGameId());
-
-        Score updatedScore = scoreService.save(score);
-        return ResponseEntity.ok(updatedScore);
+        Optional<Score> updatedScore = scoreService.update(id, scoreDetails);
+        return updatedScore.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

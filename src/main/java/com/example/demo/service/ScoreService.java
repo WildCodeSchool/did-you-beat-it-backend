@@ -26,4 +26,13 @@ public class ScoreService {
     public void deleteById(Long id) {
         scoreRepository.deleteById(id);
     }
+
+    public Optional<Score> update(Long id, Score scoreDetails) {
+        return scoreRepository.findById(id).map(score -> {
+            score.setScore(scoreDetails.getScore());
+            score.setUserId(scoreDetails.getUserId());
+            score.setGameId(scoreDetails.getGameId());
+            return scoreRepository.save(score);
+        });
+    }
 }
