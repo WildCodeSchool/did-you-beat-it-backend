@@ -139,6 +139,31 @@ public class UserService {
 
     }
 
+    public List<GameDTO> deleteGame(Long userId, Long gameId) {
+
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            Optional<Game> gameInList = gameRepository.findById(gameId);
+            if (gameInList.isPresent()) {
+                this.game = gameInList.get();
+
+                if (userOptional.get().getGames().contains(game)) {
+                    user.getGames().remove(game);
+                    userRepository.save(user);
+                }
+                return user.getGames().stream()
+                        .map(this::convertToDTO)
+                        .collect(Collectors.toList());
+            } else {
+                throw new IllegalArgumentException("le jeux n'est pas dans la liste: " + gameId);
+            }
+        } else {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+    }
+
     public Long getUsernameInToken(String token) {
         String username = jwtService.extractUsername(token);
         Long userId = this.findUserIdByUsername(username);
