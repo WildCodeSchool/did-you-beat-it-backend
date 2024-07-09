@@ -2,7 +2,6 @@ package com.example.demo.config;
 
 import java.security.Key;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -68,7 +67,7 @@ public class JwtService {
                 .getBody();
     }
 
-    public Long extractUserId(String token) {
-        return extractClaim(token, claims -> claims.get("id", Long.class));
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
 }
