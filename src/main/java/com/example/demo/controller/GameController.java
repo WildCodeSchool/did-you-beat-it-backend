@@ -43,7 +43,7 @@ public class GameController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<List<GameDTO>> deleteListGame(Long gameId,
+    public ResponseEntity<List<GameDTO>> deleteGame(Long gameId,
             @RequestHeader("Authorization") String token) {
         Long userIdToken = userService.getUsernameInToken(token);
 
