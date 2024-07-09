@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,18 +16,17 @@ public class Commentary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private String author;
-    private Long UserId;
-    private Long GameId;
+    private int gameId;
 
-    public Commentary() {
-    }
 
-    public Commentary(String content, String author, Long UserId, Long GameId) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Commentary(String content, User user, int gameId) {
         this.content = content;
-        this.author = author;
-        this.UserId = UserId;
-        this.GameId = GameId;
+        this.user = user;
+        this.gameId = gameId;
     }
 
     public Long getId() {
@@ -40,28 +41,12 @@ public class Commentary {
         this.content = content;
     }
 
-    public String getAuthor() {
-        return this.author;
+    public int getGameId() {
+        return this.gameId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public Long getUserId() {
-        return this.UserId;
-    }
-
-    public void setUserId(Long UserId) {
-        this.UserId = UserId;
-    }
-
-    public Long getGameId() {
-        return this.GameId;
-    }
-
-    public void setGameId(Long GameId) {
-        this.GameId = GameId;
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
 }

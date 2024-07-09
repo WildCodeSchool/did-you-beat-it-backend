@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.entity.Commentary;
 import com.example.demo.entity.User;
 
 @Component
@@ -14,6 +15,9 @@ public class UserGeneratorRepository implements CommandLineRunner{
     
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentaryRepository commentaryRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -28,6 +32,16 @@ public class UserGeneratorRepository implements CommandLineRunner{
             users.add(new User("Clotilde", "clotilde@wild.com", "74!Bomg3K", "Touchscreen alpha A sandbox Pwn Wombo Combo Dragon Quest power spike Donkey Kong. Action point AI Bejeweled Mario Kart Hot Coffee 32-bit Halo: Combat Evolved level RPG frag.", "clotilde", false));
 
             this.userRepository.saveAll(users);
+
+            List<Commentary> commentaries = new ArrayList<>();
+
+            commentaries.add(new Commentary("Ce jeu est génial mais difficile", users.get(1), 1));
+            commentaries.add(new Commentary("Je suis d'accord avec toi", users.get(2), 1));
+            commentaries.add(new Commentary("J'ai fini ce jeu en deux jours, j'ai pas pu m'arrêter", users.get(3), 10));
+
+            this.commentaryRepository.saveAll(commentaries);
+
+            
         }
     }
 }
