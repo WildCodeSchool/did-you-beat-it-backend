@@ -93,6 +93,15 @@ public class UserService {
         }
     }
 
+    public String findUserSlugByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user.getSlug();
+        } else {
+            throw new IllegalArgumentException("User slug not found");
+        }
+    }
+
     public void addGame(Long userId, Long gameId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
@@ -166,9 +175,15 @@ public class UserService {
         }
     }
 
-    public Long getUsernameInToken(String token) {
+    public Long getIdInToken(String token) {
         String username = jwtService.extractUsername(token);
         Long userId = this.findUserIdByUsername(username);
         return userId;
+    }
+
+    public String getSlugInToken(String token) {
+        String username = jwtService.extractUsername(token);
+        String userSlug = this.findUserSlugByUsername(username);
+        return userSlug;
     }
 }

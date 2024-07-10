@@ -25,7 +25,7 @@ public class GameController {
     @PostMapping("/add")
     public ResponseEntity<?> addGameToList(@RequestParam Long gameId,
             @RequestHeader("Authorization") String token) {
-        Long userId = userService.getUsernameInToken(token);
+        Long userId = userService.getIdInToken(token);
         userService.addGame(userId, gameId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -33,7 +33,7 @@ public class GameController {
     @GetMapping("")
     public ResponseEntity<List<GameDTO>> getListGames(@RequestParam Long user_id,
             @RequestHeader("Authorization") String token) {
-        Long userIdToken = userService.getUsernameInToken(token);
+        Long userIdToken = userService.getIdInToken(token);
         if (!user_id.equals(userIdToken)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -44,7 +44,7 @@ public class GameController {
     @DeleteMapping()
     public ResponseEntity<List<GameDTO>> deleteGame(Long gameId,
             @RequestHeader("Authorization") String token) {
-        Long userIdToken = userService.getUsernameInToken(token);
+        Long userIdToken = userService.getIdInToken(token);
 
         List<GameDTO> updatedGames = userService.deleteGame(userIdToken, gameId);
         return ResponseEntity.ok(updatedGames);

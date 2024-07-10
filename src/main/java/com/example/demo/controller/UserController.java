@@ -64,7 +64,7 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody User users) {
         User user = userService.findByemail(users.getEmail());
         if (user != null && passwordEncoder.matches(users.getPassword(), user.getPassword())) {
-            String token = jwtService.generateToken(user.getId(), user.getUsername());
+            String token = jwtService.generateToken(user.getId(), user.getUsername(), user.getSlug());
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
             return ResponseEntity.ok(response);
