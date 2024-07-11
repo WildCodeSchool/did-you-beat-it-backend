@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class Game {
     private Long id;
 
     @ManyToMany(mappedBy = "games")
+    @JsonIgnore
     List<User> users = new ArrayList<>();
 
     public Game() {
