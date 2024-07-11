@@ -17,3 +17,10 @@
 - You'll find in this repository a basic architecture with examples of a common Spring boot MVC project :
 - example Controllers / services / entities and repositories are meant to be deleted once you've implemented your own code logic.
 - Don't forget to document this README.md file with your project's description and steps to run it.
+
+## Steps to Use JWT Token 
+
+- Generate a secret key for that use this command in your terminal :  `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))`
+
+- Add the generated secret key to your application-dev.properties file
+
